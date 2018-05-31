@@ -5,7 +5,6 @@ import './index.css';
 export default class CardSection extends React.Component {
 	render() {
 		const props = this.props;
-		console.log("rendering CardSection");
 		return (
 			<div>
 				<div className="cards">
@@ -13,8 +12,8 @@ export default class CardSection extends React.Component {
 					<Card card={props.card} />
 				</div>
 				<div className="card-numbers">
-					<div className="number">{props.deck}</div>
-					<div className="number">{props.pile}</div>
+					<div className="number">CARDS: {props.deck}</div>
+					<div className="number">CARDS: {props.pile}</div>
 				</div>
 			</div>
 		);

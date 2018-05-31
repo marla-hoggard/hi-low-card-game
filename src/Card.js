@@ -4,12 +4,10 @@ import './index.css';
 
 export default class Card extends React.Component {
 	render() {
-		console.log("rendering card");
 		const props = this.props;
-		if (props.card === 'back') {
+		if (props.card === 'back' || props.card === 'empty') {
 			return (
-				<div className="card card-back">
-					{/*<p class="deck-number">{props.stack}</p>*/}
+				<div className={`card card-${props.card}`}>
 				</div>
 			);
 		}

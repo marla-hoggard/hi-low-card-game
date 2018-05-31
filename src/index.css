@@ -2,8 +2,138 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #308834;
+	font-family: 'Concert One', cursive;
 }
 
+/* Header.js */
+.players {
+	display: grid;
+	grid-template-columns: 1fr 60px 60px 1fr;
+	grid-column-gap: 10px;
+	grid-template-rows: 32px;
+	margin: auto;
+	padding-top: 10px;
+	height: 55px;
+	font-family: 'Concert One', cursive;
+	background: #141b40;
+	border-bottom: 4px solid #757d9b;
+}
+
+.player-name {
+	font-size: 30px;
+	line-height: 32px;
+	color: white;
+}
+
+.player1 {
+	text-align: right;
+}
+
+.player-score {
+	font-size: 25px;
+	text-align: center;
+	color: black;
+	background-color: #F8D64E;
+	border-radius: 5px;
+	width: 48px;
+	height: 32px;
+	margin: 6px 10px 0px 10px;
+}
+
+.dealer1 {
+	margin: 0 10px 0 0;
+}
+.dealer2 {
+	margin: 0 0 0 10px;
+}
+.hidden {
+	visibility: hidden;
+}
+
+/* Guess.js */
+.guess {
+	margin: 20px 0px;
+	text-align: center;
+}
+
+.pass {
+	font-family: 'Concert One', cursive;
+	font-size: 25px;
+	border-radius: 7px;
+	background: #eee;
+	border: 2px solid #141b40;
+	color: #141b40;
+	outline: none;
+	cursor: pointer;
+	margin: 10px;
+}
+
+.pass:hover {
+	background: #bbb;
+}
+
+.pass:active {
+	background: #999;
+}
+
+.pass:disabled {
+	background: #cacaca;
+	border: 2px solid transparent;
+	color: #999;
+	cursor: not-allowed;
+}
+
+.guessButtons {
+
+}
+
+.hi-low {
+	height: 80px;
+	width: 120px;
+	margin: 10px;
+	background: #eee;
+	border-radius: 10px;
+	font-family: 'Concert One', cursive;
+	font-size: 50px;
+	color: black;
+
+	//padding: 15px 25px;
+  	//text-align: center;
+  	cursor: pointer;
+  	outline: none;
+  	border: none;
+  	box-shadow: 0 9px #999;
+}
+
+.hi-low:hover {
+	background: #bbb;
+}
+
+.hi-low:active {
+	background: #bbb;
+  	box-shadow: 0 5px #666;
+ 	transform: translateY(4px);
+}
+
+.guesserName {
+	font-size: 25px;
+	color: white;
+	margin-top: 20px;
+}
+
+.guessCount {
+	font-size: 25px;
+	text-align: center;
+	color: black;
+	background-color: #F8D64E;
+	border-radius: 5px;
+	padding: 1px 7px;
+	height: 32px;
+	margin: auto;
+	margin-top: 10px;
+}
+
+/* Card & CardSection */
 .cards {
 	display:flex;
 	width: 470px;
@@ -23,25 +153,21 @@ body {
 .number {
 	width: 226px;
 	text-align: center;
-	font-family: 'Bowlby One SC', cursive;
 	font-size: 25px;
-	color: #dfdf1e;
+	color: #F8D64E;
 }
 .card-back {
 	width: 224px;
 	height: 312px;
 	border: 1px solid black;
 	border-radius: 10px;
-	background-image: url("card-back.png");
+	background-image: url("card-back-taylor.png");
 	background-size: 100%;
-	line-height: 314px;
-	font-size: 30px;
-	text-align: center;
 }
 
-.card-back-image {
-	width: 226px;
-	height: 314px;
-	//border: 2px solid black;
-	//border-radius: 15px;
+.card-empty {
+	width: 222px;
+	height: 312px;
+	border: 2px solid black;
+	border-radius: 10px;
 }
