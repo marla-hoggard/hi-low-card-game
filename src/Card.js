@@ -1,13 +1,14 @@
 import React from 'react';
-import cardBack from './card-back.png';
+//import cardBack from './card-back.png';
 import './index.css';
 
 export default class Card extends React.Component {
 	render() {
+		console.log("rendering card");
 		const props = this.props;
 		if (props.card === 'back') {
 			return (
-				<div class="card card-back">
+				<div className="card card-back">
 					{/*<p class="deck-number">{props.stack}</p>*/}
 				</div>
 			);
@@ -15,7 +16,7 @@ export default class Card extends React.Component {
 		else {
 			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
 			return (
-				<div class="card">
+				<div className="card">
 					<img src={src} alt={props.card} />
 				</div>
 			);

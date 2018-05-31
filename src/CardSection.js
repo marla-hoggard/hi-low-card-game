@@ -1,15 +1,21 @@
 import React from 'react';
-
 import Card from './Card';
 import './index.css';
 
 export default class CardSection extends React.Component {
 	render() {
 		const props = this.props;
+		console.log("rendering CardSection");
 		return (
-			<div class="cards">
-				<Card card="back" stack="51" />
-				<Card card="8S" stack="1" />
+			<div>
+				<div className="cards">
+					<Card card="back" />
+					<Card card={props.card} />
+				</div>
+				<div className="card-numbers">
+					<div className="number">{props.deck}</div>
+					<div className="number">{props.pile}</div>
+				</div>
 			</div>
 		);
 
@@ -17,11 +23,9 @@ export default class CardSection extends React.Component {
 }
 
 /* PROPS
-card: string for card code OR 'back' OR 'empty' (outline where card should go)
-remaining: cards left in the deck
-
-
-
+card: string for card code OR 'empty' (outline where card should go)
+deck: number of cards left in the deck
+pile: numer of cards in the pile
 
 */
 

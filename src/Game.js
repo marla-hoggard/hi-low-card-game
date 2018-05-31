@@ -1,26 +1,15 @@
 import React from 'react';
-
-import Card from './Card';
+import CardSection from './CardSection';
 import './index.css';
 
 export default class Game extends React.Component {
 	render() {
+		console.log("rendering Game");
 		return (
-			<div class="cards">
-				<Card card="back" stack="51" />
-				<Card card="8S" stack="1" />
-			</div>
+			<CardSection card="AH" deck="51" pile="1" />
 		);
 
 	}
 }
 
-/* PROPS
-card: string for card code OR 'back' OR 'empty' (outline where card should go)
-remaining: cards left in the deck
-
-
-
-
-*/
 

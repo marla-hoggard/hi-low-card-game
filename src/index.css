@@ -11,6 +11,22 @@ body {
 	margin-top: 15px;
 	justify-content: space-between;
 }
+
+.card-numbers {
+	display:flex;
+	width: 470px;
+	margin: auto;
+	margin-top: 0px;
+	justify-content: space-between;
+}
+
+.number {
+	width: 226px;
+	text-align: center;
+	font-family: 'Bowlby One SC', cursive;
+	font-size: 25px;
+	color: #dfdf1e;
+}
 .card-back {
 	width: 224px;
 	height: 312px;
