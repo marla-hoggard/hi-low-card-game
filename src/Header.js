@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import star from './Gold_Star@48px.png';
+import star from './Gold_Star_big.png';
 
 export default class Header extends React.Component {
 	render() {

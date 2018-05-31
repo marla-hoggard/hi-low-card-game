@@ -25,7 +25,7 @@ button {
 
 .player-name {
 	font-size: 30px;
-	line-height: 32px;
+	line-height: 37px;
 	color: white;
 }
 
@@ -34,14 +34,14 @@ button {
 }
 
 .player-score {
-	font-size: 25px;
+	font-size: 30px;
 	text-align: center;
 	color: black;
 	background-color: #F8D64E;
 	border-radius: 5px;
 	width: 48px;
-	height: 32px;
-	margin: 6px 10px 0px 10px;
+	height: 37px;
+	margin: 3px 10px 0px 10px;
 }
 
 .dealer1 {
@@ -131,19 +131,18 @@ button {
 }
 
 .guesserName {
-	font-size: 25px;
+	font-size: 27px;
 	color: white;
 	margin-top: 20px;
 }
 
 .guessCount {
-	font-size: 25px;
+	font-size: 30px;
 	text-align: center;
 	color: black;
 	background-color: #F8D64E;
 	border-radius: 5px;
 	padding: 1px 7px;
-	height: 32px;
 	margin: auto;
 	margin-top: 10px;
 }
