@@ -1,0 +1,31 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #308834;
+}
+
+.cards {
+	display:flex;
+	width: 470px;
+	margin: auto;
+	margin-top: 15px;
+	justify-content: space-between;
+}
+.card-back {
+	width: 224px;
+	height: 312px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-image: url("card-back.png");
+	background-size: 100%;
+	line-height: 314px;
+	font-size: 30px;
+	text-align: center;
+}
+
+.card-back-image {
+	width: 226px;
+	height: 314px;
+	//border: 2px solid black;
+	//border-radius: 15px;
+}
