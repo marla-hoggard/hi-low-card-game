@@ -21,6 +21,7 @@ export default class Game extends React.Component {
 					player2={this.state.player2}
 					dealer={this.state.dealer} 
 				/>
+				<button className="new-game">New Game</button>
 				<Guess activePlayer={this.state.dealer ? this.state.player2.name : this.state.player1.name}
 					guessCount={this.state.guessCount} />
 				<CardSection card="6H" deck="46" pile="3" />
