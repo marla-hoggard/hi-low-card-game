@@ -230,9 +230,42 @@ button {
 	background-size: 100%;
 }
 
-.card-empty {
+/*.card-empty {
 	width: 222px;
 	height: 312px;
 	border: 2px solid black;
 	border-radius: 10px;
+}*/
+
+.card-empty {
+	width: 226px;
+	height: 316px;
+}
+
+/* ANIMATIONS */
+#card-pile:active {
+	float: right;
+	transform: translate(0px,-650px);
+	transition: 1s;
+}
+
+@keyframes fly-player1 {
+	0% { transform: translate(0px,0px); }
+	100% { transform: translate(-226px,-650px); }
+}
+
+@keyframes fly-player2 {
+	0% { transform: translate(0px,0px); }
+	100% { transform: translate(0px,-650px); }
+}
+.fly-player1 {
+	animation-name: 'fly-player1';
+	animation-duration: 1s;
+	animation-delay: 0.25s;
+}
+
+.fly-player2 {
+	animation-name: 'fly-player2';
+	animation-duration: 1s;
+	animation-delay: 0.25s;
 }

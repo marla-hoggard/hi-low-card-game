@@ -10,8 +10,8 @@ export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			player1: {name: "Player 1", score: 0},
-			player2: {name: "Player 2", score: 0},
+			player1: {name: "Player 1 Name", score: 0},
+			player2: {name: "Player 2 Name", score: 0},
 			player1active: true, //player1 active, player2 dealing
 			guessCount: 0,
 
@@ -19,10 +19,12 @@ export default class Game extends React.Component {
 			gameOver: false,
 
 			fetchAction: null, //Which api call to make in DidUpdate
-			deckSize: 52,
+			deckSize: '',
 			deckId: 'new',
 			pile: [], //full card object
 			currentCard: null, //full card object
+
+			animatePile: '',
 		}
 		this.API = 'https://deckofcardsapi.com/api/deck/';
 	}
@@ -30,10 +32,19 @@ export default class Game extends React.Component {
 	//Load pop window to enter names and press start
 	newGame = () => {
 		this.setState( {
+			player1: {name: this.state.player1.name, score: 0},
+			player2: {name: this.state.player2.name, score: 0},
+			player1active: true,
+			guessCount: 0,
+
 			showNewGame: true,
 			gameOver: false,
+
 			fetchAction: null,
+			pile: [],
 			currentCard: null,
+
+			animatePile: '',
 		});
 	}
 
@@ -69,11 +80,13 @@ export default class Game extends React.Component {
 			if (hiOrLow === 'hi' && newRank > oldRank || 
 				hiOrLow === 'low' && newRank < oldRank ) {
 				console.log("Good guess!");
+				const gameOver = data.remaining === 0 ? true : false;
 				this.setState({
 					pile: this.state.pile.concat(data.cards[0]),
 					currentCard: data.cards[0],
 					deckSize: data.remaining,
 					guessCount: this.state.guessCount + 1,
+					gameOver,
 				})
 			}
 			else {
@@ -82,10 +95,12 @@ export default class Game extends React.Component {
 				if (this.state.player1active) {
 					newState.player1 = this.state.player1;
 					newState.player1.score += this.state.pile.length + 1;
+					newState.animatePile = 'fly-player1';
 				}		
 				else {
 					newState.player2 = this.state.player2;
 					newState.player2.score += this.state.pile.length + 1;
+					newState.animatePile = 'fly-player2';
 				}
 				newState = {
 					...newState,
@@ -97,7 +112,7 @@ export default class Game extends React.Component {
 					this.setState({
 						...newState,
 						gameOver: true,
-						//fetchAction: null,
+						deckSize: data.remaining,
 					})
 				}
 				else {
@@ -107,9 +122,10 @@ export default class Game extends React.Component {
 					setTimeout(() => {
 						this.setState({
 							currentCard: null,
+							animatePile: '',
 							fetchAction: 'draw',
 						});
-					},500);
+					},750);
 				}
 			}
 		});
@@ -170,11 +186,13 @@ export default class Game extends React.Component {
 					.then(data => {
 						console.log("Draw from did update: in timeout");
 						console.log(data.cards[0].code);
+						const gameOver = data.remaining === 0 ? true : false;
 						this.setState({
 							deckSize: data.remaining,
 							pile: [data.cards[0]],
 							currentCard: data.cards[0],
 							fetchAction: null,
+							gameOver,
 						})
 					}).catch(error => {
 						console.log("Out of cards?");
@@ -212,7 +230,9 @@ export default class Game extends React.Component {
 							clickHiLow={this.chooseHiOrLow}
 							clickPass={this.passDeck} />
 					}
-					<CardSection card={state.currentCard ? state.currentCard.code : 'empty'} deck={state.deckSize} pile={state.pile.length} />
+					<CardSection card={state.currentCard ? state.currentCard.code : 'empty'} 
+						deck={state.deckSize} pile={state.pile.length}
+						classes={state.animatePile} />
 				</div>
 			);
 		}

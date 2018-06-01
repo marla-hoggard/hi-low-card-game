@@ -9,7 +9,7 @@ export default class CardSection extends React.Component {
 			<div>
 				<div className="cards">
 					<Card card={props.deck > 0 ? 'back' : 'empty'} />
-					<Card card={props.card} />
+					<Card classes={props.classes} card={props.card} />
 				</div>
 				<div className="card-numbers">
 					<div className="number">CARDS: {props.deck}</div>
@@ -24,7 +24,7 @@ export default class CardSection extends React.Component {
 /* PROPS
 card: string for card code OR 'empty' (outline where card should go)
 deck: number of cards left in the deck
-pile: numer of cards in the pile
-
+pile: number of cards in the pile
+classes: string for animating card pile on score
 */
 

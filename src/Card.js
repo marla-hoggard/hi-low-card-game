@@ -13,7 +13,7 @@ export default class Card extends React.Component {
 		else {
 			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
 			return (
-				<div className="card">
+				<div className={`card ${props.classes}`}>
 					<img src={src} alt={props.card} />
 				</div>
 			);
@@ -23,7 +23,7 @@ export default class Card extends React.Component {
 }
 
 /* PROPS
+classes: string to be the div id
 card: string for card code OR 'back' OR 'empty' (outline where card should go)
-**stack: number of cards in the deck - probably going in CardSection
 */
 
