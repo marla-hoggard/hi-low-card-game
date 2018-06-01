@@ -1,6 +1,8 @@
 body {
 	margin: 0;
 	padding: 0;
+	background-image: url("images/green-bg.jpg");
+	background-size: 100%;
 	background-color: #308834;
 	font-family: 'Concert One', cursive;
 }
@@ -54,8 +56,47 @@ button {
 	visibility: hidden;
 }
 
-/* New Game Button */
+/* NewGame.js */
 .new-game {
+	width: 60%;
+	margin: auto;
+	margin-top: 40px;
+	padding: 20px;
+	background-color: #141b40;
+	border: 3px solid #757d9b;
+	opacity: 0.9;
+}
+
+.welcome {
+	color: white;
+	font-size: 35px;
+	text-align: center;
+}
+
+.new-game form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+}
+.new-game input {
+	height: 20px;
+	width: 50%;
+	margin: auto;
+	margin-top: 10px;
+	font-size: 17px;
+	text-align: center;
+	font-family: 'Concert One', cursive;
+}
+
+.new-game button {
+	width: 125px;
+	margin-top: 15px;
+}
+
+
+/* Basic buttons */
+.button {
 	margin: 5px 10px;
 	font-size: 15px;
 	border: 1px solid #141b40;
@@ -65,12 +106,22 @@ button {
 	outline: none;
 }
 
-.new-game:hover {
+.button:hover {
 	background: #ccc;
 }
 
-.new-game:active {
+.button:active {
 	background: #999;
+}
+
+/* Game Over */
+.game-over {
+	height: 201px;
+	line-height: 201px;
+	margin-bottom: 20px;
+	text-align: center;
+	font-size: 60px;
+	color: white;
 }
 
 /* Guess.js */
@@ -175,7 +226,7 @@ button {
 	height: 312px;
 	border: 1px solid black;
 	border-radius: 10px;
-	background-image: url("card-back-taylor.png");
+	background-image: url("images/card-back-taylor.png");
 	background-size: 100%;
 }
 

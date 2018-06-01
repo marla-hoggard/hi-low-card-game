@@ -8,7 +8,7 @@ export default class CardSection extends React.Component {
 		return (
 			<div>
 				<div className="cards">
-					<Card card="back" />
+					<Card card={props.deck > 0 ? 'back' : 'empty'} />
 					<Card card={props.card} />
 				</div>
 				<div className="card-numbers">
