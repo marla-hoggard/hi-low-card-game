@@ -59,14 +59,11 @@ export default class Game extends React.Component {
 	}
 
 	chooseHiOrLow = (hiOrLow) => {
-		console.log("Clicked " + hiOrLow);
 		fetch(this.API + this.state.deckId + '/draw/?count=1')
 		.then(response => response.json())
 		.then(data => {
+			console.log("drawing from choseHiOrLow (71)");
 			console.log(data.cards[0].code);
-			while (!this.state.currentCard) {
-				this.setTimeout(() => console.log("waiting on new card"), 250);
-			}
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
 			if (hiOrLow === 'hi' && newRank > oldRank || 
@@ -166,11 +163,12 @@ export default class Game extends React.Component {
 		// 	});
 		// }
 		else if (this.state.fetchAction === 'draw') {
-			console.log("Drawing from did update");
+			console.log("Draw did update: before timeout");
 			setTimeout(() => {
 				fetch(this.API + this.state.deckId + '/draw/?count=1')
 					.then(response => response.json())
 					.then(data => {
+						console.log("Draw from did update: in timeout");
 						console.log(data.cards[0].code);
 						this.setState({
 							deckSize: data.remaining,
