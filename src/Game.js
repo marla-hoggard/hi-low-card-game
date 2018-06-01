@@ -24,6 +24,7 @@ export default class Game extends React.Component {
 			pile: [], //full card object
 			currentCard: null, //full card object
 
+			noCard: true,
 			animatePile: '',
 		}
 		this.API = 'https://deckofcardsapi.com/api/deck/';
@@ -45,6 +46,7 @@ export default class Game extends React.Component {
 			currentCard: null,
 
 			animatePile: '',
+			noCard: false,
 		});
 	}
 
@@ -66,10 +68,15 @@ export default class Game extends React.Component {
 			showNewGame: false,
 			gameOver: false,
 			fetchAction: 'new',
+			noCard: false,
 		});
 	}
 
 	chooseHiOrLow = (hiOrLow) => {
+		if (!this.state.currentCard) {
+			console.log("no current card");
+			return;
+		}
 		fetch(this.API + this.state.deckId + '/draw/?count=1')
 		.then(response => response.json())
 		.then(data => {
@@ -87,6 +94,7 @@ export default class Game extends React.Component {
 					deckSize: data.remaining,
 					guessCount: this.state.guessCount + 1,
 					gameOver,
+					noCard: false,
 				})
 			}
 			else {
@@ -113,17 +121,20 @@ export default class Game extends React.Component {
 						...newState,
 						gameOver: true,
 						deckSize: data.remaining,
+						//noCard: true,
 					})
 				}
 				else {
 					this.setState({
 						...newState,
+						//noCard: false, //???
 					});
 					setTimeout(() => {
 						this.setState({
-							currentCard: null,
-							animatePile: '',
+							//currentCard: null,
+							animatePile: 'hidden',
 							fetchAction: 'draw',
+							noCard: true,
 						});
 					},750);
 				}
@@ -151,6 +162,7 @@ export default class Game extends React.Component {
 							pile: [data.cards[0]],
 							currentCard: data.cards[0],
 							fetchAction: null,
+							noCard: false,
 						});
 					});
 			}
@@ -167,17 +179,12 @@ export default class Game extends React.Component {
 								pile: [data.cards[0]],
 								currentCard: data.cards[0],
 								fetchAction: null,
+								noCard: false,
 							});
 						});
 					});
 			}
 		}
-		// else if (this.state.deckSize == 0) {
-		// 	this.setState({
-		// 		gameOver: true,
-		// 		fetchAction: null,
-		// 	});
-		// }
 		else if (this.state.fetchAction === 'draw') {
 			console.log("Draw did update: before timeout");
 			setTimeout(() => {
@@ -192,6 +199,8 @@ export default class Game extends React.Component {
 							pile: [data.cards[0]],
 							currentCard: data.cards[0],
 							fetchAction: null,
+							animatePile: '',
+							noCard: false,
 							gameOver,
 						})
 					}).catch(error => {
@@ -227,6 +236,7 @@ export default class Game extends React.Component {
 					{state.gameOver ? <div className="game-over">{message}</div> :
 						<Guess activePlayer={state.player1active ? state.player1.name : state.player2.name}
 							guessCount={state.guessCount}
+							noCard={state.noCard}
 							clickHiLow={this.chooseHiOrLow}
 							clickPass={this.passDeck} />
 					}

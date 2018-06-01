@@ -12,8 +12,10 @@ export default class Guess extends React.Component {
 					PASS DECK
 				</button>
 				<div className="guessButtons">
-					<button className="hi-low" onClick={() => props.clickHiLow("hi")}>HI</button>
-					<button className="hi-low" onClick={() => props.clickHiLow("low")}>LOW</button>
+					<button className="hi-low" disabled={props.noCard}
+						onClick={() => props.clickHiLow("hi")}>HI</button>
+					<button className="hi-low" disabled={props.noCard}
+						onClick={() => props.clickHiLow("low")}>LOW</button>
 					<div className="guesserName">{guessLabel}&nbsp;<span className="guessCount">{props.guessCount}</span>
 					</div>
 				</div>
