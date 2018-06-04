@@ -11,8 +11,8 @@ export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			player1: {name: "Player 1", score: 0},
-			player2: {name: "Player 2", score: 0},
+			player1: {name: "Player 1", score: 0, gamesWon: 2},
+			player2: {name: "Player 2", score: 0, gamesWon: 4},
 			player1active: true, //player1 active, player2 dealing
 			guessCount: 0,
 
@@ -34,8 +34,8 @@ export default class Game extends React.Component {
 	//Load pop window to enter names and press start
 	newGame = () => {
 		this.setState( {
-			player1: {name: this.state.player1.name, score: 0},
-			player2: {name: this.state.player2.name, score: 0},
+			player1: {name: this.state.player1.name, score: 0, gamesWon: this.state.player1.gamesWon},
+			player2: {name: this.state.player2.name, score: 0, gamesWon: this.state.player2.gamesWon},
 			player1active: true,
 			guessCount: 0,
 
@@ -63,9 +63,43 @@ export default class Game extends React.Component {
 		}
 	}
 
-	//Reset state, shuffle deck, draw first card
+	//Reset state, update localStorage, shuffle deck, draw first card
 	startGame = () => {
+		let p1games, p2games;
+		const newSeries = {
+			player1: {name: this.state.player1.name, wins: 0},
+			player2: {name: this.state.player2.name, wins: 0},
+		}
+
+		if (localStorage.getItem('gamesWon')) {
+			const gamesWon = JSON.parse(localStorage.getItem('gamesWon'));
+			if (this.state.player1.name == gamesWon.player1.name &&
+				this.state.player2.name == gamesWon.player2.name) {
+				console.log("localStorage Matched")
+				p1games = gamesWon.player1.wins;
+				p2games = gamesWon.player2.wins;
+			}
+			else {
+				localStorage.setItem('gamesWon', JSON.stringify(newSeries));
+				console.log("localStorage Exists but no match")
+				p1games = 0;
+				p2games = 0;
+			}
+		}
+		else {
+			localStorage.setItem('gamesWon', JSON.stringify(newSeries));
+			console.log("localStorage No match.")
+			p1games = 0;
+			p2games = 0;
+		}
+
+		let {player1, player2} = {...this.state};
+		player1.gamesWon = p1games;
+		player2.gamesWon = p2games;
+
 		this.setState( {
+			player1,
+			player2,
 			showNewGame: false,
 			gameOver: false,
 			fetchAction: 'new',
@@ -82,11 +116,24 @@ export default class Game extends React.Component {
 			console.log(data.cards[0].code);
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
+			let series;
 			if (hiOrLow === 'hi' && newRank > oldRank || 
 				hiOrLow === 'low' && newRank < oldRank ) {
 				console.log("Good guess!");
 				const gameOver = data.remaining === 0 ? true : false;
 				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
+
+				if (gameOver) {
+					series = JSON.parse(localStorage.getItem('gamesWon'));
+					if (this.state.player1.score < this.state.player2.score) {
+						series.player1.wins++;
+					}
+					else if (this.state.player1.score > this.state.player2.score) {
+						series.player2.wins++;
+					}
+					localStorage.setItem('gamesWon', JSON.stringify(series));
+				}
+
 				this.setState({
 					pile: this.state.pile.concat(data.cards[0]),
 					currentCard: data.cards[0],
@@ -114,6 +161,14 @@ export default class Game extends React.Component {
 					guessCount: 0,
 				};
 				if (this.state.deckSize <= 1) {
+					series = JSON.parse(localStorage.getItem('gamesWon'));
+					if (this.state.player1.score < this.state.player2.score) {
+						series.player1.wins++;
+					}
+					else if (this.state.player1.score > this.state.player2.score) {
+						series.player2.wins++;
+					}
+					localStorage.setItem('gamesWon', JSON.stringify(series));
 					this.setState({
 						...newState,
 						gameOver: true,
@@ -196,6 +251,16 @@ export default class Game extends React.Component {
 				.then(data => {
 					console.log(data.cards[0].code);
 					const gameOver = data.remaining === 0 ? true : false;
+					if (gameOver) {
+						let series = JSON.parse(localStorage.getItem('gamesWon'));
+						if (this.state.player1.score < this.state.player2.score) {
+							series.player1.wins++;
+						}
+						else if (this.state.player1.score > this.state.player2.score) {
+							series.player2.wins++;
+						}
+						localStorage.setItem('gamesWon', JSON.stringify(series));
+					}
 					this.setState({
 						deckSize: data.remaining,
 						pile: [data.cards[0]],

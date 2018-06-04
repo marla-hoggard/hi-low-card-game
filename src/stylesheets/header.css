@@ -6,7 +6,7 @@
 	grid-template-rows: 32px;
 	margin: auto;
 	padding-top: 10px;
-	height: 55px;
+	height: 65px;
 	font-family: 'Concert One', cursive;
 	background: #141b40;
 	border-bottom: 4px solid #757d9b;
@@ -23,14 +23,26 @@
 }
 
 .player-score {
-	font-size: 30px;
+	font-size: 37px;
 	text-align: center;
 	color: black;
 	background-color: #F8D64E;
 	border-radius: 5px;
 	width: 48px;
-	height: 37px;
+	height: 51px;
+	line-height: 51px;
 	margin: 3px 10px 0px 10px;
+}
+
+.series {
+	color: white;
+	font-size: 14px;
+	//margin-top: 5px;
+	padding: 5px 10px;
+}
+
+.player2 {
+	grid-column: 4 / 5;
 }
 
 .dealer1 {

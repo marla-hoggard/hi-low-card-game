@@ -20,6 +20,8 @@ export default class Header extends React.Component {
 					<img className={!props.dealer ? "dealer2" : "hidden"} 
 						src={star} width="32" height="32" alt="dealer" />
 				</div>
+				<div className="series player1">Games Won: {props.player1.gamesWon}</div>
+				<div className="series player2">Games Won: {props.player2.gamesWon}</div>
 			</div>
 		);
 
