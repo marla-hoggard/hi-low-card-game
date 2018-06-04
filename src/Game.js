@@ -106,6 +106,7 @@ export default class Game extends React.Component {
 		});
 	}
 
+	//Equivalent of New Game then Start Game with no player name changes
 	playAgain = () => {
 		const gamesWon = localStorage.getItem('gamesWon') ? JSON.parse(localStorage.getItem('gamesWon')) :
 		{
@@ -134,6 +135,7 @@ export default class Game extends React.Component {
 		});
 	}
 
+	//For player name inputs in NewGame.js
 	handleNameChange = (e) => {
 		let {player1, player2} = this.state;
 		if (e.target.name === 'player1') {
@@ -146,6 +148,7 @@ export default class Game extends React.Component {
 		}
 	}
 
+	//For pressing Hi or Low buttons
 	chooseHiOrLow = (hiOrLow) => {
 		fetch(this.API + this.state.deckId + '/draw/?count=1')
 		.then(response => response.json())
@@ -157,11 +160,12 @@ export default class Game extends React.Component {
 			let series;
 			if (hiOrLow === 'hi' && newRank > oldRank || 
 				hiOrLow === 'low' && newRank < oldRank ) {
-				console.log("Good guess!");
+				console.log("Correct!");
 				const gameOver = data.remaining === 0 ? true : false;
 				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
 
 				if (gameOver) {
+					//Update series record in localStorage
 					series = JSON.parse(localStorage.getItem('gamesWon'));
 					if (this.state.player1.score < this.state.player2.score) {
 						series.player1.wins++;
@@ -211,6 +215,7 @@ export default class Game extends React.Component {
 					localStorage.setItem('gamesWon', JSON.stringify(series));
 					this.setState({
 						...newState,
+						...score,
 						gameOver: true,
 						deckSize: data.remaining,
 					})
@@ -220,6 +225,7 @@ export default class Game extends React.Component {
 					this.setState({
 						...newState,
 						noCard: true,
+						deckSize: data.remaining,
 					}, () => {
 						setTimeout(() => {
 							this.setState({
