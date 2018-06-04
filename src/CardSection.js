@@ -5,18 +5,40 @@ import './index.css';
 export default class CardSection extends React.Component {
 	render() {
 		const props = this.props;
+		const pileCards = props.pile.slice(0,-1).map((card,index,pile) => {
+			const classNames = props.classes.includes('fly') ? "card card-flip " + props.classes + "-delay" : "card card-flip";
+			const duration = 2.25 + .2 * (pile.length - index);
+			return (
+				<Card key={card.code} classes={classNames} card={card.code} 
+					style={{animationDuration: duration + 's'}} />
+			);
+		})
 		return (
 			<div className="card-area">
 				<div className="cards">
-					<Card card={props.deck > 0 ? 'back' : 'empty'} />
+					<Card card={props.deck > 0 ? 'back' : 'empty'}/>
+					{pileCards}
 					<Card classes={props.classes} card={props.card} />
 				</div>
 				<div className="card-numbers">
 					<div className="number">CARDS: {props.deck}</div>
-					<div className="number">CARDS: {props.pile}</div>
+					<div className="number">CARDS: {props.pile.length}</div>
 				</div>
 			</div>
 		);
+
+		// return (
+		// 	<div className="card-area">
+		// 		<div className="cards">
+		// 			<Card card={props.deck > 0 ? 'back' : 'empty'} />
+		// 			<Card classes={props.classes} card={props.card} />
+		// 		</div>
+		// 		<div className="card-numbers">
+		// 			<div className="number">CARDS: {props.deck}</div>
+		// 			<div className="number">CARDS: {props.pile}</div>
+		// 		</div>
+		// 	</div>
+		// );
 
 	}
 }
@@ -24,7 +46,7 @@ export default class CardSection extends React.Component {
 /* PROPS
 card: string for card code OR 'empty' (outline where card should go)
 deck: number of cards left in the deck
-pile: number of cards in the pile
+pile: array of cards in the face-up pile
 classes: string for animating card pile on score
 */
 

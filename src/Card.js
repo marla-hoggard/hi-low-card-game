@@ -1,6 +1,7 @@
 import React from 'react';
-import './index.css';
 import cardBack from './images/card-back-taylor.png';
+import './index.css';
+import './stylesheets/animations.css';
 
 export default class Card extends React.Component {
 	render() {
@@ -15,7 +16,7 @@ export default class Card extends React.Component {
 			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
 			return (
 				<div className="card-container">
-					<div className={`card card-flip ${props.classes}`}>
+					<div className={`card card-flip ${props.classes}`} style={props.style}>
 						<div className="flip-back"><img src={cardBack} alt='back' /></div>
 						<div className="flip-front"><img src={src} alt={props.card} /></div>
 					</div>
@@ -23,21 +24,12 @@ export default class Card extends React.Component {
 				
 			);
 		}
-
-		// else {
-		// 	const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
-		// 	return (
-		// 		<div className={`card ${props.classes}`}>
-		// 			<img src={src} alt={props.card} />
-		// 		</div>
-		// 	);
-		// }
-
 	}
 }
 
 /* PROPS
 classes: string to be the div id
 card: string for card code OR 'back' OR 'empty' (outline where card should go)
+style: animation delay for pile fly animation
 */
 

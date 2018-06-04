@@ -107,8 +107,8 @@ export default class Game extends React.Component {
 					score.player2.score += this.state.pile.length + 1;
 				}
 				const newState = {
+					pile: this.state.pile.concat(data.cards[0]),
 					animatePile: this.state.player1active ? 'fly-player1' : 'fly-player2',
-					pile: [],
 					currentCard: data.cards[0],
 					guessCount: 0,
 				};
@@ -131,11 +131,12 @@ export default class Game extends React.Component {
 							}, () => {
 								this.setState({
 									...score,
+									pile: [],
 									fetchAction: 'draw',
 									animatePile: 'deal-card'
 								});
 							});
-						},1750);
+						},2250 + .2 * this.state.pile.length);
 					});
 				}
 			}
@@ -239,7 +240,7 @@ export default class Game extends React.Component {
 							clickPass={this.passDeck} />
 					}
 					<CardSection card={state.currentCard ? state.currentCard.code : 'empty'} 
-						deck={state.deckSize} pile={state.pile.length}
+						deck={state.deckSize} pile={state.pile}
 						classes={state.animatePile} />
 				</div>
 			);
