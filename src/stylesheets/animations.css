@@ -1,0 +1,71 @@
+.deal-enter {
+
+}
+
+.deal-enter-active {
+
+}
+
+.deal-enter-done {
+
+}
+
+.deal-exit {
+
+}
+
+.deal-exit-active {
+
+}
+
+.deal-exit-done {
+
+}
+
+.fly1-enter {
+	transform: translate(0px,0px);
+}
+
+.fly1-enter-active {
+ 	transform: translate(-226px,-650px);
+}
+
+.fly1-enter-done {
+
+}
+
+.fly1-exit {
+	transform: translate(0px,0px);
+}
+
+.fly1-exit-active {
+	transform: translate(-226px,-650px);
+}
+
+.fly1-exit-done {
+	//visibility: hidden;
+}
+
+.fly2-enter {
+	transform: translate(0px,0px);
+}
+
+.fly2-enter-active {
+	transform: translate(0px,-650px);
+}
+
+.fly2-enter-done {
+
+}
+
+.fly2-exit {
+	transform: translate(0px,0px);
+}
+
+.fly2-exit-active {
+	transform: translate(0px,-650px);
+}
+
+.fly2-exit-done {
+	//visibility: hidden;
+}

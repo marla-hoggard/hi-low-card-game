@@ -217,36 +217,11 @@ button {
 	justify-content: space-between;
 }
 
-/*.card-numbers {
-	display:flex;
-	justify-content: space-between;
-}*/
-
 .number {
 	width: 226px;
 	text-align: center;
 	font-size: 25px;
 	color: #F8D64E;
-}
-.card-back {
-	width: 224px;
-	height: 312px;
-	border: 1px solid black;
-	border-radius: 10px;
-	background-image: url("images/card-back-taylor.png");
-	background-size: 100%;
-}
-
-/*.card-empty {
-	width: 222px;
-	height: 312px;
-	border: 2px solid black;
-	border-radius: 10px;
-}*/
-
-.card-empty {
-	width: 226px;
-	height: 316px;
 }
 
 /* ANIMATIONS */
@@ -282,10 +257,51 @@ button {
 
 /* card flip */
 @keyframes deal-card {
-	0% { transform: translate(-244px,0px) rotateY( 180deg );}
-	100% { transform: translate(0px,0px) rotateY( 0deg ); }
+	0% { transform: translate(-244px,0px) rotateY( 180deg ); }
+	100% { transform: translate(0px,0px) rotateY( 0deg );}
 }
 .deal-card {
 	animation-name: 'deal-card';
 	animation-duration: 1s;
+}
+
+@keyframes deal-again {
+	0% { transform: translate(-244px,0px) rotateY( 180deg ); }
+	100% { transform: translate(0px,0px) rotateY( 0deg );}
+}
+.deal-again {
+	animation-name: 'deal-again';
+	animation-duration: 1s;
+}
+
+.card-back {
+	width: 224px;
+	height: 312px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-image: url("images/card-back-taylor.png");
+	background-size: 100%;
+}
+
+.card-empty {
+	width: 226px;
+	height: 316px;
+}
+
+.card {
+	transform-style: preserve-3d;
+	perspective: 1000px;
+}
+
+.flip-front, .flip-back {
+	position: relative;
+	backface-visibility: hidden;
+}
+
+.flip-front {
+	top: -316px;
+}
+
+.flip-back {
+	transform: rotateY(180deg);
 }

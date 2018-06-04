@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css';
+import cardBack from './images/card-back-taylor.png';
 
 export default class Card extends React.Component {
 	render() {
@@ -13,11 +14,12 @@ export default class Card extends React.Component {
 		else {
 			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
 			return (
-				
-					<div className={`card ${props.classes}`}>
+				<div className="card-container">
+					<div className={`card card-flip ${props.classes}`}>
+						<div className="flip-back"><img src={cardBack} alt={props.card} /></div>
 						<div className="flip-front"><img src={src} alt={props.card} /></div>
-						<div className="flip-back"></div>
 					</div>
+				</div>
 				
 			);
 		}
