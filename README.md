@@ -5,7 +5,7 @@ A two-player card game based on [these specs](https://gist.github.com/tublitzed/
 A live version of the game can be played [on Heroku](https://hi-low-game.herokuapp.com/).
 
 ## The Rules
-* Play consists of a dealer and a guesser:
+Play consists of a dealer and a guesser:
  1. The dealer draws a card from the top of the deck and places it face up.
  2. The guesser must guess whether the next card drawn from the deck will be higher or lower than the face up card.
  3. Once the guesser guesses, the dealer draws the next card and places it face up on top of the previous card.
