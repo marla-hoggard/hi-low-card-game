@@ -6,11 +6,17 @@
 
 .game-over {
 	height: 201px;
-	line-height: 201px;
 	margin-bottom: 20px;
 	text-align: center;
+}
+.message {
+	line-height: 175px;
 	font-size: 60px;
 	color: white;
 	animation-name: font-zoom;
 	animation-duration: 1s;
+}
+
+.play-again {
+	margin: auto;
 }

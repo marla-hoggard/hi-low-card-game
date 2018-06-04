@@ -5,7 +5,7 @@ import './stylesheets/guess.css';
 export default class Guess extends React.Component {
 	render() {
 		const props = this.props;
-		const guessLabel = (/s$/i).test(props.activePlayer) ? props.activePlayer.toUpperCase() + "' GUESSES" :
+		const guessLabel = (/s$/i).test(props.activePlayer) ? props.activePlayer.toUpperCase() + "' STREAK" :
 			props.activePlayer.toUpperCase() + "'S STREAK";
 		return (
 			<div className="guess">

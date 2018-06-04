@@ -51,18 +51,6 @@ export default class Game extends React.Component {
 		});
 	}
 
-	handleNameChange = (e) => {
-		let {player1, player2} = this.state;
-		if (e.target.name === 'player1') {
-			player1.name = e.target.value;
-			this.setState( { player1 } );
-		}
-		else if (e.target.name === 'player2') {
-			player2.name = e.target.value;
-			this.setState( { player2 } );
-		}
-	}
-
 	//Reset state, update localStorage, shuffle deck, draw first card
 	startGame = () => {
 		let p1games, p2games;
@@ -106,6 +94,45 @@ export default class Game extends React.Component {
 			noCard: false,
 			animatePile: 'deal-card'
 		});
+	}
+
+	playAgain = () => {
+		const gamesWon = localStorage.getItem('gamesWon') ? JSON.parse(localStorage.getItem('gamesWon')) :
+		{
+			"player1": { "name":this.state.player1.name, "wins":this.state.player1.gamesWon },
+			"player2": { "name":this.state.player2.name, "wins":this.state.player2.gamesWon }
+		};
+		console.log("Playing agan");
+		console.log(gamesWon);
+		
+		this.setState( {
+			player1: {name: this.state.player1.name, score: 0, gamesWon: gamesWon.player1.wins},
+			player2: {name: this.state.player2.name, score: 0, gamesWon: gamesWon.player2.wins},
+			player1active: true,
+			guessCount: 0,
+
+			gameOver: false,
+
+			fetchAction: 'new',
+			pile: [],
+			currentCard: null,
+
+			animatePile: 'deal-card',
+			noCard: false,
+		});
+	}
+
+
+	handleNameChange = (e) => {
+		let {player1, player2} = this.state;
+		if (e.target.name === 'player1') {
+			player1.name = e.target.value;
+			this.setState( { player1 } );
+		}
+		else if (e.target.name === 'player2') {
+			player2.name = e.target.value;
+			this.setState( { player2 } );
+		}
 	}
 
 	chooseHiOrLow = (hiOrLow) => {
@@ -298,7 +325,11 @@ export default class Game extends React.Component {
 						dealer={!state.player1active} 
 					/>
 					<button className="button" onClick={() => this.newGame()}>New Game</button>
-					{state.gameOver ? <div className="game-over">{message}</div> :
+					{state.gameOver ? 
+						<div className="game-over">
+							<div className="message">{message}</div>
+							<button className="button play-again" onClick={() => this.playAgain()}>Play Again</button>
+						</div> :
 						<Guess activePlayer={state.player1active ? state.player1.name : state.player2.name}
 							guessCount={state.guessCount}
 							noCard={state.noCard}
