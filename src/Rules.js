@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import './stylesheets/rules.css'
 
-const Rules = function(props) {
+const Rules = (props) => {
 	return (
 		<div className="rules">
 			<div className="welcome">How To Play Hi-Low</div>

@@ -4,29 +4,28 @@ import './index.css';
 import './stylesheets/cards.css';
 import './stylesheets/animations.css';
 
-export default class Card extends React.Component {
-	render() {
-		const props = this.props;
-		if (props.card === 'back' || props.card === 'empty') {
+const Card = ({classes,card,style}) => {
+		if (card === 'back' || card === 'empty') {
 			return (
-				<div className={`card card-${props.card}`}>
+				<div className={`card card-${card}`}>
 				</div>
 			);
 		}
 		else {
-			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
+			const src = `https://deckofcardsapi.com/static/img/${card}.png`;
 			return (
 				<div className="card-container">
-					<div className={`card card-flip ${props.classes}`} style={props.style}>
+					<div className={`card card-flip ${classes}`} style={style}>
 						<div className="flip-back"><img src={cardBack} alt='back' /></div>
-						<div className="flip-front"><img src={src} alt={props.card} /></div>
+						<div className="flip-front"><img src={src} alt={card} /></div>
 					</div>
 				</div>
 				
 			);
 		}
-	}
 }
+
+export default Card;
 
 /* PROPS
 classes: string to be the div id

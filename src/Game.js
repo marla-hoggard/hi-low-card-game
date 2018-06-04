@@ -14,48 +14,50 @@ export default class Game extends React.Component {
 		this.state = {
 			player1: {name: "Player 1", score: 0, gamesWon: 2},
 			player2: {name: "Player 2", score: 0, gamesWon: 4},
-			player1active: true, //player1 active, player2 dealing
+			player1active: true, //player1 guessing, player2 dealing
 			guessCount: 0,
 
-			showNewGame: true,
-			showRules: false, 
+			showRules: false, //Show the how to play component
+			showNewGame: true, //Show the new game component
 			gameOver: false,
 
 			fetchAction: null, //Which api call to make in DidUpdate
-			deckSize: '',
+			deckSize: '', //Cards remaining in the deck (face down)
 			deckId: 'new',
-			pile: [], //Array of card objects
+			pile: [], //Array of card objects in face up pile
 			currentCard: null, //full card object
 
-			noCard: true,
-			animatePile: '',
+			noCard: true, //disables hi-low buttons when true
+			animatePile: '', //class names for animations
 		}
 		this.API = 'https://deckofcardsapi.com/api/deck/';
 	}
 
 	toggleRules = () => {
-		this.setState({
-			showRules: !this.state.showRules,
+		this.setState(prevState => {
+			return { showRules: !prevState.showRules }
 		});
 	}
 
 	//Load pop window to enter names and press start
 	newGame = () => {
-		this.setState( {
-			player1: {name: this.state.player1.name, score: 0, gamesWon: this.state.player1.gamesWon},
-			player2: {name: this.state.player2.name, score: 0, gamesWon: this.state.player2.gamesWon},
-			player1active: true,
-			guessCount: 0,
+		this.setState(prevState => {
+			return {
+				player1: {name: prevState.player1.name, score: 0, gamesWon: prevState.player1.gamesWon},
+				player2: {name: prevState.player2.name, score: 0, gamesWon: prevState.player2.gamesWon},
+				player1active: true,
+				guessCount: 0,
 
-			showNewGame: true,
-			gameOver: false,
+				showNewGame: true,
+				gameOver: false,
 
-			fetchAction: null,
-			pile: [],
-			currentCard: null,
+				fetchAction: null,
+				pile: [],
+				currentCard: null,
 
-			animatePile: '',
-			noCard: false,
+				animatePile: '',
+				noCard: false,
+			}
 		});
 	}
 
@@ -113,23 +115,24 @@ export default class Game extends React.Component {
 		console.log("Playing agan");
 		console.log(gamesWon);
 		
-		this.setState( {
-			player1: {name: this.state.player1.name, score: 0, gamesWon: gamesWon.player1.wins},
-			player2: {name: this.state.player2.name, score: 0, gamesWon: gamesWon.player2.wins},
-			player1active: true,
-			guessCount: 0,
+		this.setState(prevState => {
+			return {
+				player1: {name: prevState.player1.name, score: 0, gamesWon: gamesWon.player1.wins},
+				player2: {name: prevState.player2.name, score: 0, gamesWon: gamesWon.player2.wins},
+				player1active: true,
+				guessCount: 0,
 
-			gameOver: false,
+				gameOver: false,
 
-			fetchAction: 'new',
-			pile: [],
-			currentCard: null,
+				fetchAction: 'new',
+				pile: [],
+				currentCard: null,
 
-			animatePile: 'deal-card',
-			noCard: false,
+				animatePile: 'deal-card',
+				noCard: false,
+			}
 		});
 	}
-
 
 	handleNameChange = (e) => {
 		let {player1, player2} = this.state;
@@ -169,14 +172,16 @@ export default class Game extends React.Component {
 					localStorage.setItem('gamesWon', JSON.stringify(series));
 				}
 
-				this.setState({
-					pile: this.state.pile.concat(data.cards[0]),
-					currentCard: data.cards[0],
-					deckSize: data.remaining,
-					guessCount: this.state.guessCount + 1,
-					gameOver,
-					animatePile: deal,
-				})
+				this.setState(prevState => {
+					return {
+						pile: prevState.pile.concat(data.cards[0]),
+						currentCard: data.cards[0],
+						deckSize: data.remaining,
+						guessCount: prevState.guessCount + 1,
+						gameOver,
+						animatePile: deal,
+					}
+				});
 			}
 			else {
 				console.log("WRONG!");
@@ -210,7 +215,8 @@ export default class Game extends React.Component {
 						deckSize: data.remaining,
 					})
 				}
-				else {
+				else { //guessed wrong, game continues
+					const pileSize = this.state.pile.length + 1;
 					this.setState({
 						...newState,
 						noCard: true,
@@ -227,7 +233,7 @@ export default class Game extends React.Component {
 									animatePile: 'deal-card'
 								});
 							});
-						},2250 + .2 * this.state.pile.length);
+						},2250 + .2 * pileSize);
 					});
 				}
 			}
@@ -243,6 +249,7 @@ export default class Game extends React.Component {
 
 	componentDidUpdate() {
 		if (this.state.fetchAction === 'new') {
+			//Need a new deck - shuffles and draws in one api call
 			if (this.state.deckId === 'new') {
 				fetch(this.API + 'new/draw/?count=1')
 					.then(response => response.json())
@@ -260,6 +267,7 @@ export default class Game extends React.Component {
 					});
 			}
 			else {
+				//Already had a deck -> shuffles it, then draws 
 				fetch(this.API + this.state.deckId + '/shuffle/')
 					.then(response => response.json())
 					.then(data => {
@@ -279,6 +287,7 @@ export default class Game extends React.Component {
 					});
 			}
 		}
+		//Drawing a card after a wrong guess
 		else if (this.state.fetchAction === 'draw') {
 			console.log("Draw from did update");
 			fetch(this.API + this.state.deckId + '/draw/?count=1')
@@ -286,17 +295,22 @@ export default class Game extends React.Component {
 				.then(data => {
 					console.log(data.cards[0].code);
 					const gameOver = data.remaining === 0 ? true : false;
+					let {player1, player2} = {...this.state}
 					if (gameOver) {
 						let series = JSON.parse(localStorage.getItem('gamesWon'));
 						if (this.state.player1.score < this.state.player2.score) {
 							series.player1.wins++;
+							player1.gamesWon++;
 						}
 						else if (this.state.player1.score > this.state.player2.score) {
 							series.player2.wins++;
+							player2.gamesWon++;
 						}
 						localStorage.setItem('gamesWon', JSON.stringify(series));
 					}
 					this.setState({
+						player1,
+						player2,
 						deckSize: data.remaining,
 						pile: [data.cards[0]],
 						currentCard: data.cards[0],
@@ -336,7 +350,7 @@ export default class Game extends React.Component {
 						player2={state.player2}
 						dealer={!state.player1active} 
 					/>
-					
+
 					<div className="game-buttons">
 						<button className="button" onClick={this.newGame}>New Game</button>
 						<button className="button" onClick={this.toggleRules}>How To Play</button>
