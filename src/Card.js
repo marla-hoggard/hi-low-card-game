@@ -16,7 +16,7 @@ export default class Card extends React.Component {
 			return (
 				<div className="card-container">
 					<div className={`card card-flip ${props.classes}`}>
-						<div className="flip-back"><img src={cardBack} alt={props.card} /></div>
+						<div className="flip-back"><img src={cardBack} alt='back' /></div>
 						<div className="flip-front"><img src={src} alt={props.card} /></div>
 					</div>
 				</div>

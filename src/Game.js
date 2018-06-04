@@ -97,19 +97,17 @@ export default class Game extends React.Component {
 			}
 			else {
 				console.log("WRONG!");
-				let newState = {};
+				let score = {};
 				if (this.state.player1active) {
-					newState.player1 = this.state.player1;
-					newState.player1.score += this.state.pile.length + 1;
-					newState.animatePile = 'fly-player1';
+					score.player1 = {...this.state.player1};
+					score.player1.score += this.state.pile.length + 1;
 				}		
 				else {
-					newState.player2 = this.state.player2;
-					newState.player2.score += this.state.pile.length + 1;
-					newState.animatePile = 'fly-player2';
+					score.player2 = {...this.state.player2};
+					score.player2.score += this.state.pile.length + 1;
 				}
-				newState = {
-					...newState,
+				const newState = {
+					animatePile: this.state.player1active ? 'fly-player1' : 'fly-player2',
 					pile: [],
 					currentCard: data.cards[0],
 					guessCount: 0,
@@ -132,11 +130,12 @@ export default class Game extends React.Component {
 								noCard: true,
 							}, () => {
 								this.setState({
+									...score,
 									fetchAction: 'draw',
 									animatePile: 'deal-card'
 								});
 							});
-						},750);
+						},1750);
 					});
 				}
 			}

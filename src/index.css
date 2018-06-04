@@ -226,7 +226,7 @@ button {
 
 /* ANIMATIONS */
 /* cards fly to player on score */
-@keyframes fly-player1 {
+/*@keyframes fly-player1 {
 	0% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
 	20% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
 	75% { opacity: 0.9; }
@@ -254,6 +254,34 @@ button {
 	opacity: 0;
 	visibility: hidden;
 }
+*/
+@keyframes fly-player1 {
+	0% { transform: translate(-244px,0px) rotateY( 180deg ); opacity: 1; visibility: visible;}
+	44% { transform: translate(0px,0px) rotateY( 0deg ); opacity: 1; visibility: visible;}
+	95% { opacity: 0.9; }
+	100% { transform: translate(-226px,-650px) rotateY( 0deg ); opacity: 0; visibility: hidden;}
+}
+
+@keyframes fly-player2 {
+	0% { transform: translate(-244px,0px) rotateY( 180deg ); opacity: 1; visibility: visible;}
+	44% { transform: translate(0px,0px) rotateY( 0deg ); opacity: 1; visibility: visible;}
+	95% { opacity: 0.9; }
+	100% { transform: translate(0px,-650px) rotateY( 0deg ); opacity: 0; visibility: hidden;}
+}
+.fly-player1 {
+	animation-name: 'fly-player1';
+	animation-duration: 2.25s;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.fly-player2 {
+	animation-name: 'fly-player2';
+	animation-duration: 2.25s;
+	opacity: 0;
+	visibility: hidden;
+}
+
 
 /* card flip */
 @keyframes deal-card {
