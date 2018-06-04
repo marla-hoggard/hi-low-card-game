@@ -17,3 +17,8 @@ Play consists of a dealer and a guesser:
 * If the player continues guessing and is wrong, play starts over at step 1 and the player must again make three correct guesses before being allowed to pass.
 * The goal is to end the game with as few points as possible.
 * Aces are high.
+
+## Credits
+I used the [Deck of Cards API](http://deckofcardsapi.com/) for deck management and card images.
+
+The image for the back of the card was designed by Taylor Hoggard.
