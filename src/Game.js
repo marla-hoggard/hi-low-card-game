@@ -1,4 +1,5 @@
 import React from 'react';
+import Rules from './Rules';
 import NewGame from './NewGame';
 import Header from './Header';
 import Guess from './Guess';
@@ -17,18 +18,25 @@ export default class Game extends React.Component {
 			guessCount: 0,
 
 			showNewGame: true,
+			showRules: false, 
 			gameOver: false,
 
 			fetchAction: null, //Which api call to make in DidUpdate
 			deckSize: '',
 			deckId: 'new',
-			pile: [], //full card object
+			pile: [], //Array of card objects
 			currentCard: null, //full card object
 
 			noCard: true,
 			animatePile: '',
 		}
 		this.API = 'https://deckofcardsapi.com/api/deck/';
+	}
+
+	toggleRules = () => {
+		this.setState({
+			showRules: !this.state.showRules,
+		});
 	}
 
 	//Load pop window to enter names and press start
@@ -305,12 +313,16 @@ export default class Game extends React.Component {
 
 	render() {
 		const state = this.state;
-		if (state.showNewGame) {
+		if (state.showRules) {
+			return <Rules onClick={this.toggleRules}/>
+		}
+		else if (state.showNewGame) {
 			return <NewGame 
 					player1={state.player1.name}
 					player2={state.player2.name}
-					handleChange={(e) => this.handleNameChange(e)}
+					handleChange={this.handleNameChange}
 					startGame={this.startGame}
+					showRules={this.toggleRules}
 			/>
 		}
 		else {
@@ -324,11 +336,16 @@ export default class Game extends React.Component {
 						player2={state.player2}
 						dealer={!state.player1active} 
 					/>
-					<button className="button" onClick={() => this.newGame()}>New Game</button>
+					
+					<div className="game-buttons">
+						<button className="button" onClick={this.newGame}>New Game</button>
+						<button className="button" onClick={this.toggleRules}>How To Play</button>
+					</div>
+
 					{state.gameOver ? 
 						<div className="game-over">
 							<div className="message">{message}</div>
-							<button className="button play-again" onClick={() => this.playAgain()}>Play Again</button>
+							<button className="button play-again" onClick={this.playAgain}>Play Again</button>
 						</div> :
 						<Guess activePlayer={state.player1active ? state.player1.name : state.player2.name}
 							guessCount={state.guessCount}

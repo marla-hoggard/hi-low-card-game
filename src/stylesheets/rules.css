@@ -1,0 +1,29 @@
+.rules {
+	width: 80%;
+	margin: auto;
+	margin-top: 40px;
+	padding: 20px;
+	background-color: #141b40;
+	border: 3px solid #757d9b;
+	opacity: 0.9;
+}
+
+.welcome {
+	color: white;
+	font-size: 40px;
+	text-align: center;
+}
+
+ul {
+	color: white;
+	font-size: 18px;
+	list-style-type: square;
+}
+
+li {
+	padding: 5px;
+}
+
+.highlight {
+	color: #F8D64E;
+}

@@ -12,7 +12,10 @@ export default class NewGame extends React.Component {
 				<form>
 					<input type="text" name="player1" value={props.player1} onChange={props.handleChange} />
 					<input type="text" name="player2" value={props.player2} onChange={props.handleChange} />
-					<button className="button" onClick={props.startGame}>Start Game</button>
+					<div className="buttons">
+						<button className="button" onClick={props.startGame}>Start Game</button>
+						<button className="button" onClick={props.showRules}>How To Play</button>
+					</div>
 				</form>
 			</div>
 		);
@@ -20,8 +23,9 @@ export default class NewGame extends React.Component {
 }
 
 /* PROPS
-Player 1's name
-Player 2's name
-onChange for both inputs
-onClick for startGame()
+player1: Player 1's name
+player2: Player 2's name
+handleChange: onChange for both inputs
+startGame: onClick for startGame()
+showRules: onClick for toggleRules()
 */

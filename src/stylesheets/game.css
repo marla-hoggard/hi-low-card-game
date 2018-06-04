@@ -20,3 +20,8 @@
 .play-again {
 	margin: auto;
 }
+
+.game-buttons {
+	display: flex;
+	justify-content: space-between;
+}

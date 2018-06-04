@@ -15,6 +15,11 @@ button {
 	visibility: hidden;
 }
 
+.center {
+	margin: auto;
+	text-align: center;
+}
+
 /* Basic buttons */
 .button {
 	margin: 5px 10px;

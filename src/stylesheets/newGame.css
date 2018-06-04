@@ -38,6 +38,14 @@
 }
 
 .new-game button {
-	width: 125px;
+	width: 100px;
 	margin-top: 15px;
 }
+
+.buttons {
+	display: flex;
+	justify-content: space-around;
+}
+
+
+
