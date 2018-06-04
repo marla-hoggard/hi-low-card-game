@@ -13,11 +13,23 @@ export default class Card extends React.Component {
 		else {
 			const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
 			return (
-				<div className={`card ${props.classes}`}>
-					<img src={src} alt={props.card} />
-				</div>
+				
+					<div className={`card ${props.classes}`}>
+						<div className="flip-front"><img src={src} alt={props.card} /></div>
+						<div className="flip-back"></div>
+					</div>
+				
 			);
 		}
+
+		// else {
+		// 	const src = `https://deckofcardsapi.com/static/img/${props.card}.png`;
+		// 	return (
+		// 		<div className={`card ${props.classes}`}>
+		// 			<img src={src} alt={props.card} />
+		// 		</div>
+		// 	);
+		// }
 
 	}
 }

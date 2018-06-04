@@ -207,21 +207,20 @@ button {
 }
 
 /* Card & CardSection */
-.cards {
-	display:flex;
+.card-area {
 	width: 470px;
 	margin: auto;
-	margin-top: 15px;
+	margin-top: 20px;
+}
+.cards, .card-numbers {
+	display:flex;
 	justify-content: space-between;
 }
 
-.card-numbers {
+/*.card-numbers {
 	display:flex;
-	width: 470px;
-	margin: auto;
-	margin-top: 0px;
 	justify-content: space-between;
-}
+}*/
 
 .number {
 	width: 226px;
@@ -251,29 +250,42 @@ button {
 }
 
 /* ANIMATIONS */
-#card-pile:active {
-	float: right;
-	transform: translate(0px,-650px);
-	transition: 1s;
-}
-
+/* cards fly to player on score */
 @keyframes fly-player1 {
-	0% { transform: translate(0px,0px); }
-	100% { transform: translate(-226px,-650px); }
+	0% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
+	20% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
+	75% { opacity: 0.9; }
+	100% { transform: translate(-226px,-650px); opacity: 0; visibility: hidden;}
 }
 
 @keyframes fly-player2 {
-	0% { transform: translate(0px,0px); }
-	100% { transform: translate(0px,-650px); }
+	0% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
+	20% { transform: translate(0px,0px); opacity: 1; visibility: visible; }
+	75% { opacity: 0.9; }
+	100% { transform: translate(0px,-650px); opacity: 0; visibility: hidden; }
 }
 .fly-player1 {
 	animation-name: 'fly-player1';
-	animation-duration: 1s;
-	animation-delay: 0.25s;
+	animation-duration: 1.25s;
+	//animation-delay: 0.25s;
+	opacity: 0;
+	visibility: hidden;
 }
 
 .fly-player2 {
 	animation-name: 'fly-player2';
+	animation-duration: 1.25s;
+	//animation-delay: 0.25s;
+	opacity: 0;
+	visibility: hidden;
+}
+
+/* card flip */
+@keyframes deal-card {
+	0% { transform: translate(-244px,0px) rotateY( 180deg );}
+	100% { transform: translate(0px,0px) rotateY( 0deg ); }
+}
+.deal-card {
+	animation-name: 'deal-card';
 	animation-duration: 1s;
-	animation-delay: 0.25s;
 }

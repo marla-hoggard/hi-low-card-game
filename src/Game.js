@@ -69,18 +69,15 @@ export default class Game extends React.Component {
 			gameOver: false,
 			fetchAction: 'new',
 			noCard: false,
+			animatePile: 'deal-card'
 		});
 	}
 
 	chooseHiOrLow = (hiOrLow) => {
-		if (!this.state.currentCard) {
-			console.log("no current card");
-			return;
-		}
 		fetch(this.API + this.state.deckId + '/draw/?count=1')
 		.then(response => response.json())
 		.then(data => {
-			console.log("drawing from choseHiOrLow (71)");
+			console.log("drawing from choseHiOrLow");
 			console.log(data.cards[0].code);
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
@@ -88,13 +85,14 @@ export default class Game extends React.Component {
 				hiOrLow === 'low' && newRank < oldRank ) {
 				console.log("Good guess!");
 				const gameOver = data.remaining === 0 ? true : false;
+				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
 				this.setState({
 					pile: this.state.pile.concat(data.cards[0]),
 					currentCard: data.cards[0],
 					deckSize: data.remaining,
 					guessCount: this.state.guessCount + 1,
 					gameOver,
-					noCard: false,
+					animatePile: deal,
 				})
 			}
 			else {
@@ -121,22 +119,25 @@ export default class Game extends React.Component {
 						...newState,
 						gameOver: true,
 						deckSize: data.remaining,
-						//noCard: true,
 					})
 				}
 				else {
 					this.setState({
 						...newState,
-						//noCard: false, //???
+						noCard: true,
+					}, () => {
+						setTimeout(() => {
+							this.setState({
+								animatePile: 'hidden',
+								noCard: true,
+							}, () => {
+								this.setState({
+									fetchAction: 'draw',
+									animatePile: 'deal-card'
+								});
+							});
+						},750);
 					});
-					setTimeout(() => {
-						this.setState({
-							//currentCard: null,
-							animatePile: 'hidden',
-							fetchAction: 'draw',
-							noCard: true,
-						});
-					},750);
 				}
 			}
 		});
@@ -163,6 +164,7 @@ export default class Game extends React.Component {
 							currentCard: data.cards[0],
 							fetchAction: null,
 							noCard: false,
+							animatePile: 'deal-card'
 						});
 					});
 			}
@@ -180,35 +182,32 @@ export default class Game extends React.Component {
 								currentCard: data.cards[0],
 								fetchAction: null,
 								noCard: false,
+								animatePile: 'deal-card'
 							});
 						});
 					});
 			}
 		}
 		else if (this.state.fetchAction === 'draw') {
-			console.log("Draw did update: before timeout");
-			setTimeout(() => {
-				fetch(this.API + this.state.deckId + '/draw/?count=1')
-					.then(response => response.json())
-					.then(data => {
-						console.log("Draw from did update: in timeout");
-						console.log(data.cards[0].code);
-						const gameOver = data.remaining === 0 ? true : false;
-						this.setState({
-							deckSize: data.remaining,
-							pile: [data.cards[0]],
-							currentCard: data.cards[0],
-							fetchAction: null,
-							animatePile: '',
-							noCard: false,
-							gameOver,
-						})
-					}).catch(error => {
-						console.log("Out of cards?");
-					});
-				}, 250);
+			console.log("Draw from did update");
+			fetch(this.API + this.state.deckId + '/draw/?count=1')
+				.then(response => response.json())
+				.then(data => {
+					console.log(data.cards[0].code);
+					const gameOver = data.remaining === 0 ? true : false;
+					this.setState({
+						deckSize: data.remaining,
+						pile: [data.cards[0]],
+						currentCard: data.cards[0],
+						fetchAction: null,
+						animatePile: 'deal-card',
+						noCard: false,
+						gameOver,
+					})
+				}).catch(error => {
+					console.log("Out of cards?");
+				});
 		}
-		return;
 	}
 
 	render() {

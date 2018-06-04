@@ -6,7 +6,7 @@ export default class CardSection extends React.Component {
 	render() {
 		const props = this.props;
 		return (
-			<div>
+			<div className="card-area">
 				<div className="cards">
 					<Card card={props.deck > 0 ? 'back' : 'empty'} />
 					<Card classes={props.classes} card={props.card} />
