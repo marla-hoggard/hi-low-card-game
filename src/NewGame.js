@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css';
+import './stylesheets/newGame.css'
 
 export default class NewGame extends React.Component {
 	render() {
@@ -7,6 +8,7 @@ export default class NewGame extends React.Component {
 		return (
 			<div className="new-game">
 				<div className="welcome">Play Hi-Low!</div>
+				<div className="instructions">Enter Player Names:</div>
 				<form>
 					<input type="text" name="player1" value={props.player1} onChange={props.handleChange} />
 					<input type="text" name="player2" value={props.player2} onChange={props.handleChange} />

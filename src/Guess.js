@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css';
+import './stylesheets/guess.css';
 
 export default class Guess extends React.Component {
 	render() {

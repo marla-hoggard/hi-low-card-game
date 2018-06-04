@@ -5,13 +5,14 @@ import Guess from './Guess';
 import CardSection from './CardSection';
 import { RANKS } from './constants';
 import './index.css';
+import './stylesheets/game.css';
 
 export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			player1: {name: "Player 1 Name", score: 0},
-			player2: {name: "Player 2 Name", score: 0},
+			player1: {name: "Player 1", score: 0},
+			player2: {name: "Player 2", score: 0},
 			player1active: true, //player1 active, player2 dealing
 			guessCount: 0,
 

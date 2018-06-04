@@ -1,6 +1,8 @@
 import React from 'react';
 import Card from './Card';
 import './index.css';
+import './stylesheets/cards.css';
+import './stylesheets/animations.css';
 
 export default class CardSection extends React.Component {
 	render() {

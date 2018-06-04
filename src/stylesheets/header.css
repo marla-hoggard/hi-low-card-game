@@ -1,0 +1,41 @@
+/* Header.js */
+.players {
+	display: grid;
+	grid-template-columns: 1fr 60px 60px 1fr;
+	grid-column-gap: 10px;
+	grid-template-rows: 32px;
+	margin: auto;
+	padding-top: 10px;
+	height: 55px;
+	font-family: 'Concert One', cursive;
+	background: #141b40;
+	border-bottom: 4px solid #757d9b;
+}
+
+.player-name {
+	font-size: 30px;
+	line-height: 37px;
+	color: white;
+}
+
+.player1 {
+	text-align: right;
+}
+
+.player-score {
+	font-size: 30px;
+	text-align: center;
+	color: black;
+	background-color: #F8D64E;
+	border-radius: 5px;
+	width: 48px;
+	height: 37px;
+	margin: 3px 10px 0px 10px;
+}
+
+.dealer1 {
+	margin: 0 10px 0 0;
+}
+.dealer2 {
+	margin: 0 0 0 10px;
+}

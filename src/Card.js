@@ -1,6 +1,7 @@
 import React from 'react';
 import cardBack from './images/card-back-taylor.png';
 import './index.css';
+import './stylesheets/cards.css';
 import './stylesheets/animations.css';
 
 export default class Card extends React.Component {

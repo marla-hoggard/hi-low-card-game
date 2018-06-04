@@ -1,0 +1,16 @@
+/* Game Over */
+@keyframes font-zoom {
+	0% { font-size: 0px; }
+	100% { font-size: 60px; }
+}
+
+.game-over {
+	height: 201px;
+	line-height: 201px;
+	margin-bottom: 20px;
+	text-align: center;
+	font-size: 60px;
+	color: white;
+	animation-name: font-zoom;
+	animation-duration: 1s;
+}

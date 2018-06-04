@@ -1,0 +1,74 @@
+/* Guess.js */
+.guess {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.pass {
+	font-size: 22px;
+	padding: 3px 10px;
+	border-radius: 7px;
+	background: #eee;
+	border: 2px solid #141b40;
+	color: #141b40;
+	outline: none;
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+.pass:hover {
+	background: #bbb;
+}
+
+.pass:active {
+	background: #999;
+}
+
+.pass:disabled {
+	background: #cacaca;
+	border: 2px solid transparent;
+	color: #999;
+	cursor: not-allowed;
+}
+
+.hi-low {
+	height: 80px;
+	width: 120px;
+	margin: 10px;
+	padding: 0;
+	background: #eee;
+	border-radius: 10px;
+	font-size: 50px;
+	color: black;
+  	cursor: pointer;
+  	outline: none;
+  	border: none;
+  	box-shadow: 0 9px #999;
+}
+
+.hi-low:hover {
+	background: #bbb;
+}
+
+.hi-low:active {
+	background: #bbb;
+  	box-shadow: 0 5px #666;
+ 	transform: translateY(4px);
+}
+
+.guesserName {
+	font-size: 27px;
+	color: white;
+	margin-top: 20px;
+}
+
+.guessCount {
+	font-size: 30px;
+	text-align: center;
+	color: black;
+	background-color: #F8D64E;
+	border-radius: 5px;
+	padding: 1px 7px;
+	margin: auto;
+	margin-top: 10px;
+}
