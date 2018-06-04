@@ -12,11 +12,20 @@ Play consists of a dealer and a guesser:
  4. If the guess is correct, go back to step 2.
  5. If the guess is wrong, the guesser receives a point for each card in the face up pile, and the face up pile is discarded. Then play begins at step 1 again.
 
-* When the guesser has made three correct guesses in a row, s/he may continue to guess or choose to pass and the roles are reversed with the face up pile continuing to build.
-* With each subsequent correct guess, the guesser may choose to continue or pass.
-* If the player continues guessing and is wrong, play starts over at step 1 and the player must again make three correct guesses before being allowed to pass.
-* The goal is to end the game with as few points as possible.
-* Aces are high.
+When the guesser has made three correct guesses in a row, s/he may continue to guess or choose to pass and the roles are reversed with the face up pile continuing to build.
+
+With each subsequent correct guess, the guesser may choose to continue or pass.
+
+If the player continues guessing and is wrong, play starts over at step 1 and the player must again make three correct guesses before being allowed to pass.
+
+The goal is to end the game with as few points as possible.
+
+Aces are high.
+
+## Series Tracking
+Series records are tracked via your browser's local storage. If you start a new game with the same two player names or click "play again" at the end of the game, records will be updated (displayed as "games won" under player name). 
+
+If you change one or both of the player names, the series record will be cleared to track the new pair of players. Only the most recent pair of players will be tracked.
 
 ## Credits
 I used the [Deck of Cards API](http://deckofcardsapi.com/) for deck management and card images.
