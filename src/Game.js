@@ -334,13 +334,6 @@ export default class Game extends React.Component {
 					console.log("Out of cards?");
 				});
 		}
-
-		// else if (this.state.fetchAction === 'noCards') {
-		// 	this.setState({
-		// 		pile: [],
-		// 		fetchAction: 'null',
-		// 	});
-		// }
 	}
 
 	render() {
