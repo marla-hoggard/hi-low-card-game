@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import star from './images/Gold_Star_big.png';
 import './index.css';
 import './stylesheets/header.css';
@@ -24,11 +25,25 @@ const Header = ({player1,player2,dealer}) => {
 	);
 }
 
+Header.propTypes = {
+	player1: PropTypes.shape({
+		name: PropTypes.string, 
+		score: PropTypes.number, 
+		gamesWon: PropTypes.number,
+	}).isRequired,
+	player2: PropTypes.shape({
+		name: PropTypes.string, 
+		score: PropTypes.number, 
+		gamesWon: PropTypes.number,
+	}).isRequired, 
+	dealer: PropTypes.bool.isRequired,
+};
+
 export default Header;
 
 /* PROPS
-player1: object containg name, score
-player2: object containing name, score
+player1: object containg name, score, games won
+player2: object containing name, score, games
 dealer: true = player1, false = player2
 */
 

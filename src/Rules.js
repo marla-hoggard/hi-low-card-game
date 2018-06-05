@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './index.css';
 import './stylesheets/rules.css'
 
@@ -25,6 +26,10 @@ const Rules = (props) => {
 		</div>
 	);
 }
+
+Rules.propTypes = {
+	onClick: PropTypes.func.isRequired,
+};
 
 export default Rules;
 

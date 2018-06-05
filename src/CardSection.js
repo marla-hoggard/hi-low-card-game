@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from './Card';
 import './index.css';
 import './stylesheets/cards.css';
@@ -28,10 +29,17 @@ const CardSection = (props) => {
 	);
 }
 
+CardSection.propTypes = {
+	card: PropTypes.string.isRequired,
+	deck: PropTypes.number.isRequired,
+	pile: PropTypes.array.isRequired,
+	classes: PropTypes.string,
+}
+
 export default CardSection;
 
 /* PROPS
-card: string for card code OR 'empty' (outline where card should go)
+card: string for card code OR 'empty'
 deck: number of cards left in the deck
 pile: array of cards in the face-up pile
 classes: string for animating card pile on score

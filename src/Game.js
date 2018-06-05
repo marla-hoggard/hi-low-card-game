@@ -22,7 +22,7 @@ export default class Game extends React.Component {
 			gameOver: false,
 
 			fetchAction: null, //Which api call to make in DidUpdate
-			deckSize: '', //Cards remaining in the deck (face down)
+			deckSize: 0, //Cards remaining in the deck (face down)
 			deckId: 'new',
 			pile: [], //Array of card objects in face up pile
 			currentCard: null, //full card object
@@ -64,15 +64,22 @@ export default class Game extends React.Component {
 	//Reset state, update localStorage, shuffle deck, draw first card
 	startGame = () => {
 		let p1games, p2games;
+		let {player1, player2} = {...this.state};
+		if (player1.name == '') {
+			player1.name = 'Player 1';
+		}
+		if (player2.name == '') {
+			player2.name = 'Player 2';
+		}
 		const newSeries = {
-			player1: {name: this.state.player1.name, wins: 0},
-			player2: {name: this.state.player2.name, wins: 0},
+			player1: {name: player1.name, wins: 0},
+			player2: {name: player2.name, wins: 0},
 		}
 
 		if (localStorage.getItem('gamesWon')) {
 			const gamesWon = JSON.parse(localStorage.getItem('gamesWon'));
-			if (this.state.player1.name == gamesWon.player1.name &&
-				this.state.player2.name == gamesWon.player2.name) {
+			if (player1.name == gamesWon.player1.name &&
+				player2.name == gamesWon.player2.name) {
 				console.log("localStorage Matched")
 				p1games = gamesWon.player1.wins;
 				p2games = gamesWon.player2.wins;
@@ -91,7 +98,6 @@ export default class Game extends React.Component {
 			p2games = 0;
 		}
 
-		let {player1, player2} = {...this.state};
 		player1.gamesWon = p1games;
 		player2.gamesWon = p2games;
 

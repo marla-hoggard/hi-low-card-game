@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './index.css';
 import './stylesheets/newGame.css'
 
@@ -18,6 +19,15 @@ const NewGame = (props) => {
 		</div>
 	);
 }
+
+NewGame.propTypes = {
+	player1: PropTypes.string.isRequired,
+	player2: PropTypes.string.isRequired,
+	handleChange: PropTypes.func.isRequired,
+	startGame: PropTypes.func.isRequired,
+	showRules: PropTypes.func.isRequired,
+};
+
 
 export default NewGame;
 

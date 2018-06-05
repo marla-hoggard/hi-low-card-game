@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cardBack from './images/card-back-taylor.png';
 import './index.css';
 import './stylesheets/cards.css';
@@ -25,11 +26,17 @@ const Card = ({classes,card,style}) => {
 		}
 }
 
+Card.propTypes = {
+	card: PropTypes.string.isRequired,
+	classes: PropTypes.string,
+	style: PropTypes.object,
+}
+
 export default Card;
 
 /* PROPS
-classes: string to be the div id
-card: string for card code OR 'back' OR 'empty' (outline where card should go)
-style: animation delay for pile fly animation
+classes: string for animation (optional)
+card: string for card code OR 'back' OR 'empty' 
+style: animation delay for pile fly animation (optional)
 */
 

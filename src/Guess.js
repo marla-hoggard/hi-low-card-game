@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './index.css';
 import './stylesheets/guess.css';
 
@@ -20,6 +21,14 @@ const Guess = (props) => {
 			</div>
 		</div>
 	);
+}
+
+Guess.propTypes = {
+	activePlayer: PropTypes.string.isRequired,
+	guessCount: PropTypes.number.isRequired,
+	clickPass: PropTypes.func.isRequired,
+	clickHiLow: PropTypes.func.isRequired,
+	noCard: PropTypes.bool,
 }
 
 export default Guess;
