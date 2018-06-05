@@ -55,6 +55,9 @@
   	box-shadow: 0 5px #666;
  	transform: translateY(4px);
 }
+.hi-low:disabled {
+	cursor: not-allowed;
+}
 
 .guesserName {
 	font-size: 27px;

@@ -158,26 +158,30 @@ export default class Game extends React.Component {
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
 			let series;
+			let {player1, player2} = {...this.state}
 			if (hiOrLow === 'hi' && newRank > oldRank || 
 				hiOrLow === 'low' && newRank < oldRank ) {
 				console.log("Correct!");
 				const gameOver = data.remaining === 0 ? true : false;
 				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
-
 				if (gameOver) {
 					//Update series record in localStorage
 					series = JSON.parse(localStorage.getItem('gamesWon'));
 					if (this.state.player1.score < this.state.player2.score) {
 						series.player1.wins++;
+						player1.gamesWon++;
 					}
 					else if (this.state.player1.score > this.state.player2.score) {
 						series.player2.wins++;
+						player2.gamesWon++;
 					}
 					localStorage.setItem('gamesWon', JSON.stringify(series));
 				}
 
 				this.setState(prevState => {
 					return {
+						player1,
+						player2,
 						pile: prevState.pile.concat(data.cards[0]),
 						currentCard: data.cards[0],
 						deckSize: data.remaining,
@@ -204,21 +208,31 @@ export default class Game extends React.Component {
 					currentCard: data.cards[0],
 					guessCount: 0,
 				};
+				//guessed wrong and now game's over
 				if (this.state.deckSize <= 1) {
 					series = JSON.parse(localStorage.getItem('gamesWon'));
 					if (this.state.player1.score < this.state.player2.score) {
 						series.player1.wins++;
+						player1.gamesWon++;
 					}
 					else if (this.state.player1.score > this.state.player2.score) {
 						series.player2.wins++;
+						player2.gamesWon++;
 					}
 					localStorage.setItem('gamesWon', JSON.stringify(series));
 					this.setState({
 						...newState,
 						...score,
+						player1,
+						player2,
 						gameOver: true,
 						deckSize: data.remaining,
-					})
+						fetchAction: 'noCards',
+					}, () => {
+						setTimeout(() => {
+							this.setState({ pile: [] });
+						},2250)
+					});
 				}
 				else { //guessed wrong, game continues
 					const pileSize = this.state.pile.length + 1;
@@ -251,6 +265,29 @@ export default class Game extends React.Component {
 			player1active: !this.state.player1active,
 			guessCount: 0,
 		});
+	}
+
+	updateSeriesRecords() {
+		if (localStorage.getItem('gamesWon') == null) {
+			console.log("Empty local storage");
+			return;
+		}
+		let series = JSON.parse(localStorage.getItem('gamesWon'));
+		let {player1,player2} = {...this.state};
+		if (player1.score < player2.score) {
+			series.player1.wins++;
+			player1.gamesWon++;
+		}
+		else if (player1.score > player2.score) {
+			series.player2.wins++;
+			player2.gamesWon++;
+		}
+		localStorage.setItem('gamesWon', JSON.stringify(series));
+		this.setState({
+			player1,
+			player2,
+		});
+
 	}
 
 	componentDidUpdate() {
@@ -329,6 +366,13 @@ export default class Game extends React.Component {
 					console.log("Out of cards?");
 				});
 		}
+
+		// else if (this.state.fetchAction === 'noCards') {
+		// 	this.setState({
+		// 		pile: [],
+		// 		fetchAction: 'null',
+		// 	});
+		// }
 	}
 
 	render() {
