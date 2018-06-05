@@ -113,7 +113,7 @@ export default class Game extends React.Component {
 			"player1": { "name":this.state.player1.name, "wins":this.state.player1.gamesWon },
 			"player2": { "name":this.state.player2.name, "wins":this.state.player2.gamesWon }
 		};
-		console.log("Playing agan");
+		console.log("Playing again");
 		console.log(gamesWon);
 		
 		this.setState(prevState => {
@@ -157,31 +157,18 @@ export default class Game extends React.Component {
 			console.log(data.cards[0].code);
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
-			let series;
-			let {player1, player2} = {...this.state}
 			if (hiOrLow === 'hi' && newRank > oldRank || 
 				hiOrLow === 'low' && newRank < oldRank ) {
 				console.log("Correct!");
 				const gameOver = data.remaining === 0 ? true : false;
 				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
+				
 				if (gameOver) {
-					//Update series record in localStorage
-					series = JSON.parse(localStorage.getItem('gamesWon'));
-					if (this.state.player1.score < this.state.player2.score) {
-						series.player1.wins++;
-						player1.gamesWon++;
-					}
-					else if (this.state.player1.score > this.state.player2.score) {
-						series.player2.wins++;
-						player2.gamesWon++;
-					}
-					localStorage.setItem('gamesWon', JSON.stringify(series));
+					this.updateSeriesRecords();
 				}
 
 				this.setState(prevState => {
 					return {
-						player1,
-						player2,
 						pile: prevState.pile.concat(data.cards[0]),
 						currentCard: data.cards[0],
 						deckSize: data.remaining,
@@ -210,21 +197,11 @@ export default class Game extends React.Component {
 				};
 				//guessed wrong and now game's over
 				if (this.state.deckSize <= 1) {
-					series = JSON.parse(localStorage.getItem('gamesWon'));
-					if (this.state.player1.score < this.state.player2.score) {
-						series.player1.wins++;
-						player1.gamesWon++;
-					}
-					else if (this.state.player1.score > this.state.player2.score) {
-						series.player2.wins++;
-						player2.gamesWon++;
-					}
-					localStorage.setItem('gamesWon', JSON.stringify(series));
+					console.log("Guessed wrong and now game's over");
+					this.updateSeriesRecords();
 					this.setState({
 						...newState,
 						...score,
-						player1,
-						player2,
 						gameOver: true,
 						deckSize: data.remaining,
 						fetchAction: 'noCards',
@@ -267,13 +244,15 @@ export default class Game extends React.Component {
 		});
 	}
 
-	updateSeriesRecords() {
+	updateSeriesRecords = () => {
+		console.log("updating from updateSeriesRecords");
 		if (localStorage.getItem('gamesWon') == null) {
 			console.log("Empty local storage");
 			return;
 		}
 		let series = JSON.parse(localStorage.getItem('gamesWon'));
-		let {player1,player2} = {...this.state};
+		let { player1, player2 } = {...this.state};
+
 		if (player1.score < player2.score) {
 			series.player1.wins++;
 			player1.gamesWon++;
@@ -283,6 +262,7 @@ export default class Game extends React.Component {
 			player2.gamesWon++;
 		}
 		localStorage.setItem('gamesWon', JSON.stringify(series));
+
 		this.setState({
 			player1,
 			player2,
@@ -338,22 +318,10 @@ export default class Game extends React.Component {
 				.then(data => {
 					console.log(data.cards[0].code);
 					const gameOver = data.remaining === 0 ? true : false;
-					let {player1, player2} = {...this.state}
 					if (gameOver) {
-						let series = JSON.parse(localStorage.getItem('gamesWon'));
-						if (this.state.player1.score < this.state.player2.score) {
-							series.player1.wins++;
-							player1.gamesWon++;
-						}
-						else if (this.state.player1.score > this.state.player2.score) {
-							series.player2.wins++;
-							player2.gamesWon++;
-						}
-						localStorage.setItem('gamesWon', JSON.stringify(series));
+						this.updateSeriesRecords();
 					}
 					this.setState({
-						player1,
-						player2,
 						deckSize: data.remaining,
 						pile: [data.cards[0]],
 						currentCard: data.cards[0],
