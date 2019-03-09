@@ -7,11 +7,11 @@ import './stylesheets/animations.css';
 
 const CardSection = (props) => {
 	const pileCards = props.pile.slice(0,-1).map((card,index,pile) => {
-		const classNames = props.classes.includes('fly') ? "card card-flip " + props.classes + "-delay" : "card card-flip";
+		const classNames = props.classes.includes('fly') ? `card card-flip ${props.classes}-delay` : "card card-flip";
 		const duration = 2.25 + .2 * (pile.length - index);
 		return (
 			<Card key={card.code} classes={classNames} card={card.code} 
-				style={{animationDuration: duration + 's'}} />
+				style={{ animationDuration: duration + 's' }} />
 		);
 	});
 	return (

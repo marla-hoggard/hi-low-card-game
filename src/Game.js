@@ -12,8 +12,8 @@ export default class Game extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			player1: {name: "Player 1", score: 0, gamesWon: 2},
-			player2: {name: "Player 2", score: 0, gamesWon: 4},
+			player1: {name: "Player 1", score: 0, gamesWon: 0},
+			player2: {name: "Player 2", score: 0, gamesWon: 0},
 			player1active: true, //player1 guessing, player2 dealing
 			guessCount: 0,
 
@@ -63,12 +63,11 @@ export default class Game extends React.Component {
 
 	//Reset state, update localStorage, shuffle deck, draw first card
 	startGame = () => {
-		let p1games, p2games;
 		let {player1, player2} = {...this.state};
-		if (player1.name == '') {
+		if (player1.name === '') {
 			player1.name = 'Player 1';
 		}
-		if (player2.name == '') {
+		if (player2.name === '') {
 			player2.name = 'Player 2';
 		}
 		const newSeries = {
@@ -76,30 +75,21 @@ export default class Game extends React.Component {
 			player2: {name: player2.name, wins: 0},
 		}
 
-		if (localStorage.getItem('gamesWon')) {
-			const gamesWon = JSON.parse(localStorage.getItem('gamesWon'));
-			if (player1.name == gamesWon.player1.name &&
-				player2.name == gamesWon.player2.name) {
-				console.log("localStorage Matched")
-				p1games = gamesWon.player1.wins;
-				p2games = gamesWon.player2.wins;
-			}
-			else {
-				localStorage.setItem('gamesWon', JSON.stringify(newSeries));
-				console.log("localStorage Exists but no match")
-				p1games = 0;
-				p2games = 0;
-			}
+		const gamesWon = localStorage.getItem('gamesWon')
+			? JSON.parse(localStorage.getItem('gamesWon'))
+			: null;
+
+		if (gamesWon && 
+			player1.name === gamesWon.player1.name &&
+			player2.name === gamesWon.player2.name) {
+				player1.gamesWon = gamesWon.player1.wins;
+				player2.gamesWon = gamesWon.player2.wins;
 		}
 		else {
 			localStorage.setItem('gamesWon', JSON.stringify(newSeries));
-			console.log("localStorage No match.")
-			p1games = 0;
-			p2games = 0;
+			player1.gamesWon = 0;
+			player2.gamesWon = 0;
 		}
-
-		player1.gamesWon = p1games;
-		player2.gamesWon = p2games;
 
 		this.setState( {
 			player1,
@@ -114,13 +104,12 @@ export default class Game extends React.Component {
 
 	//Equivalent of New Game then Start Game with no player name changes
 	playAgain = () => {
-		const gamesWon = localStorage.getItem('gamesWon') ? JSON.parse(localStorage.getItem('gamesWon')) :
-		{
-			"player1": { "name":this.state.player1.name, "wins":this.state.player1.gamesWon },
-			"player2": { "name":this.state.player2.name, "wins":this.state.player2.gamesWon }
-		};
-		console.log("Playing again");
-		console.log(gamesWon);
+		const gamesWon = localStorage.getItem('gamesWon') 
+			? JSON.parse(localStorage.getItem('gamesWon')) 
+			: {
+				player1: { name: this.state.player1.name, wins: this.state.player1.gamesWon },
+				player2: { name: this.state.player2.name, wins: this.state.player2.gamesWon }
+			};
 		
 		this.setState(prevState => {
 			return {
@@ -160,90 +149,85 @@ export default class Game extends React.Component {
 			noCard: true,
 		});
 		this.callAPI(this.API + this.state.deckId + '/draw/?count=1')
-		.then(data => {
-			console.log("drawing from choseHiOrLow");
-			console.log(data.cards[0].code);
-			const newRank = RANKS.indexOf(data.cards[0].value);
-			const oldRank = RANKS.indexOf(this.state.currentCard.value);
-			if ((hiOrLow === 'hi' && newRank > oldRank) || 
-				(hiOrLow === 'low' && newRank < oldRank)) {
-				console.log("Correct!");
-				const gameOver = data.remaining === 0 ? true : false;
-				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
-				
-				if (gameOver) {
-					this.updateSeriesRecords();
-				}
-
-				this.setState(prevState => {
-					return {
-						pile: prevState.pile.concat(data.cards[0]),
-						currentCard: data.cards[0],
-						deckSize: data.remaining,
-						guessCount: prevState.guessCount + 1,
-						gameOver,
-						animatePile: deal,
-						noCard: false,
+			.then(data => {
+				const newRank = RANKS.indexOf(data.cards[0].value);
+				const oldRank = RANKS.indexOf(this.state.currentCard.value);
+				if ((hiOrLow === 'hi' && newRank > oldRank) || 
+					(hiOrLow === 'low' && newRank < oldRank)) {
+					const gameOver = data.remaining === 0;
+					const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
+					
+					if (gameOver) {
+						this.updateSeriesRecords();
 					}
-				});
-			}
-			else {
-				console.log("WRONG!");
-				let score = {};
-				if (this.state.player1active) {
-					score.player1 = {...this.state.player1};
-					score.player1.score += this.state.pile.length + 1;
-				}		
+
+					this.setState(prevState => {
+						return {
+							pile: prevState.pile.concat(data.cards[0]),
+							currentCard: data.cards[0],
+							deckSize: data.remaining,
+							guessCount: prevState.guessCount + 1,
+							gameOver,
+							animatePile: deal,
+							noCard: false,
+						}
+					});
+				}
 				else {
-					score.player2 = {...this.state.player2};
-					score.player2.score += this.state.pile.length + 1;
-				}
-				const newState = {
-					pile: this.state.pile.concat(data.cards[0]),
-					animatePile: this.state.player1active ? 'fly-player1' : 'fly-player2',
-					currentCard: data.cards[0],
-					guessCount: 0,
-				};
-				//guessed wrong and now game's over
-				if (this.state.deckSize <= 1) {
-					console.log("Guessed wrong and now game's over");
-					this.updateSeriesRecords();
-					this.setState({
-						...newState,
-						...score,
-						gameOver: true,
-						deckSize: data.remaining,
-						fetchAction: 'noCards',
-					}, () => {
-						setTimeout(() => {
-							this.setState({ pile: [] });
-						},2250)
-					});
-				}
-				else { //guessed wrong, game continues
-					const pileSize = this.state.pile.length + 1;
-					this.setState({
-						...newState,
-						noCard: true,
-						deckSize: data.remaining,
-					}, () => {
-						setTimeout(() => {
-							this.setState({
-								animatePile: 'hidden',
-								noCard: true,
-							}, () => {
+					let score = {};
+					if (this.state.player1active) {
+						score.player1 = {...this.state.player1};
+						score.player1.score += this.state.pile.length + 1;
+					}		
+					else {
+						score.player2 = {...this.state.player2};
+						score.player2.score += this.state.pile.length + 1;
+					}
+					const newState = {
+						pile: this.state.pile.concat(data.cards[0]),
+						animatePile: this.state.player1active ? 'fly-player1' : 'fly-player2',
+						currentCard: data.cards[0],
+						guessCount: 0,
+					};
+					//guessed wrong and now game's over
+					if (this.state.deckSize <= 1) {
+						this.updateSeriesRecords();
+						this.setState({
+							...newState,
+							...score,
+							gameOver: true,
+							deckSize: data.remaining,
+							fetchAction: 'noCards',
+						}, () => {
+							setTimeout(() => {
+								this.setState({ pile: [] });
+							},2250)
+						});
+					}
+					else {
+						const pileSize = this.state.pile.length + 1;
+						this.setState({
+							...newState,
+							noCard: true,
+							deckSize: data.remaining,
+						}, () => {
+							setTimeout(() => {
 								this.setState({
-									...score,
-									pile: [],
-									fetchAction: 'draw',
-									animatePile: 'deal-card'
+									animatePile: 'hidden',
+									noCard: true,
+								}, () => {
+									this.setState({
+										...score,
+										pile: [],
+										fetchAction: 'draw',
+										animatePile: 'deal-card'
+									});
 								});
-							});
-						},2250 + .2 * pileSize);
-					});
+							},2250 + .2 * pileSize);
+						});
+					}
 				}
-			}
-		});
+			});
 	}
 
 	passDeck = () => {
@@ -254,9 +238,7 @@ export default class Game extends React.Component {
 	}
 
 	updateSeriesRecords = () => {
-		console.log("updating from updateSeriesRecords");
 		if (localStorage.getItem('gamesWon') == null) {
-			console.log("Empty local storage");
 			return;
 		}
 		let series = JSON.parse(localStorage.getItem('gamesWon'));
@@ -279,7 +261,7 @@ export default class Game extends React.Component {
 
 	}
 
-	callAPI = (url) => {
+	callAPI = async (url) => {
 		return fetch(url).then(response => response.json());
 	}
 
@@ -287,8 +269,7 @@ export default class Game extends React.Component {
 		if (this.state.fetchAction === 'new') {
 			//Need a new deck - shuffles and draws in one api call
 			if (this.state.deckId === 'new') {
-				fetch(this.API + 'new/draw/?count=1')
-					.then(response => response.json())
+				this.callAPI(this.API + 'new/draw/?count=1')
 					.then(data => {
 						console.log(data);
 						this.setState({
@@ -304,32 +285,27 @@ export default class Game extends React.Component {
 			}
 			else {
 				//Already had a deck -> shuffles it, then draws 
-				fetch(this.API + this.state.deckId + '/shuffle/')
-					.then(response => response.json())
-					.then(data => {
-						fetch(this.API + this.state.deckId + '/draw/?count=1')
-						.then(response => response.json())
-						.then(data => {
-							console.log(data);
-							this.setState({
-								deckSize: data.remaining,
-								pile: [data.cards[0]],
-								currentCard: data.cards[0],
-								fetchAction: null,
-								noCard: false,
-								animatePile: 'deal-card'
+				this.callAPI(this.API + this.state.deckId + '/shuffle/')
+					.then(() => {
+						this.callAPI(this.API + this.state.deckId + '/draw/?count=1')
+							.then(data => {
+								this.setState({
+									deckSize: data.remaining,
+									pile: [data.cards[0]],
+									currentCard: data.cards[0],
+									fetchAction: null,
+									noCard: false,
+									animatePile: 'deal-card'
+								});
 							});
-						});
 					});
 			}
 		}
 		//Drawing a card after a wrong guess
 		else if (this.state.fetchAction === 'draw') {
 			console.log("Draw from did update");
-			fetch(this.API + this.state.deckId + '/draw/?count=1')
-				.then(response => response.json())
+			this.callAPI(this.API + this.state.deckId + '/draw/?count=1')
 				.then(data => {
-					console.log(data.cards[0].code);
 					const gameOver = data.remaining === 0 ? true : false;
 					if (gameOver) {
 						this.updateSeriesRecords();
@@ -344,7 +320,7 @@ export default class Game extends React.Component {
 						gameOver,
 					})
 				}).catch(error => {
-					console.log("Out of cards?");
+					console.log("Out of cards?", error);
 				});
 		}
 	}

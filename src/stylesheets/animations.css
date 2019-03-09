@@ -15,14 +15,12 @@
 .fly-player1 {
 	animation-name: 'fly-player1';
 	animation-duration: 2.25s;
-	//opacity: 0;
 	visibility: hidden;
 }
 
 .fly-player2 {
 	animation-name: 'fly-player2';
 	animation-duration: 2.25s;
-	//opacity: 0;
 	visibility: hidden;
 }
 
