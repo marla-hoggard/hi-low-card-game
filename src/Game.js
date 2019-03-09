@@ -156,15 +156,17 @@ export default class Game extends React.Component {
 
 	//For pressing Hi or Low buttons
 	chooseHiOrLow = (hiOrLow) => {
-		fetch(this.API + this.state.deckId + '/draw/?count=1')
-		.then(response => response.json())
+		this.setState({
+			noCard: true,
+		});
+		this.callAPI(this.API + this.state.deckId + '/draw/?count=1')
 		.then(data => {
 			console.log("drawing from choseHiOrLow");
 			console.log(data.cards[0].code);
 			const newRank = RANKS.indexOf(data.cards[0].value);
 			const oldRank = RANKS.indexOf(this.state.currentCard.value);
-			if (hiOrLow === 'hi' && newRank > oldRank || 
-				hiOrLow === 'low' && newRank < oldRank ) {
+			if ((hiOrLow === 'hi' && newRank > oldRank) || 
+				(hiOrLow === 'low' && newRank < oldRank)) {
 				console.log("Correct!");
 				const gameOver = data.remaining === 0 ? true : false;
 				const deal = this.state.animatePile.includes('deal-card') ? 'deal-again' : 'deal-card';
@@ -181,6 +183,7 @@ export default class Game extends React.Component {
 						guessCount: prevState.guessCount + 1,
 						gameOver,
 						animatePile: deal,
+						noCard: false,
 					}
 				});
 			}
@@ -274,6 +277,10 @@ export default class Game extends React.Component {
 			player2,
 		});
 
+	}
+
+	callAPI = (url) => {
+		return fetch(url).then(response => response.json());
 	}
 
 	componentDidUpdate() {
