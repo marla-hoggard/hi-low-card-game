@@ -303,7 +303,6 @@ export default class Game extends React.Component {
 		}
 		//Drawing a card after a wrong guess
 		else if (this.state.fetchAction === 'draw') {
-			console.log("Draw from did update");
 			this.callAPI(this.API + this.state.deckId + '/draw/?count=1')
 				.then(data => {
 					const gameOver = data.remaining === 0 ? true : false;
